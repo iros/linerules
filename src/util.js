@@ -15,31 +15,6 @@ define(function(require){
     return f((Math.random() * (upper - lower)) + lower);
   };
 
-  Util.cartesianToPolar = function(from, r, angle) {
-
-    var v_dir, h_dir;
-    if (angle >= 0 && angle <= 90) {
-      h_dir = 1;
-      v_dir = -1;
-    } else if (angle > 90 && angle <= 180) {
-      v_dir = 1;
-      h_dir = -1;
-    } else if (angle > 180 && angle <= 270) {
-      v_dir = -1;
-      h_dir = 1;
-    } else if (angle > 270 && angle < 360) {
-      v_dir = 1;
-      h_dir = -1;
-    }
-
-    angle = angle * (Math.PI / 180);
-
-    return {
-      x : from.x + (h_dir * (r * Math.cos(angle))),
-      y : from.y + (v_dir * (r * Math.sin(angle)))
-    };
-  };
-
   Util.drawPath = function(base, points) {
     var line = d3.svg.line()
       .x(function(d) { return d.x; })
@@ -56,43 +31,29 @@ define(function(require){
         .attr("d", line(points));
   };
 
-  Util.nextPoint = function(from, rule, previousAngle) {
+  Util.nextPoint = function(from, rule) {
 
-    previousAngle = previousAngle || 0;
+    from.angle = (from.angle || 0); 
 
-    var angleBounds = (rule === "L" ?
-      { start : 180, end: 360 } :
-      { start: 0   , end: 180 });
+    var tau = Math.PI * 2,
+      randAngle = (Math.random() * Math.PI),
+      modifier =  ((rule === 'L') ? 1 : -1),
+      newAngleS1 = from.angle + (randAngle*modifier) ,
+      newAngleS2 = newAngleS1 + tau,
+      newAngle = newAngleS2 % tau,
+      distance = ((Spec.maxLength - Spec.minLength) * Math.random()) + Spec.minLength,
+      newPoint = { 
+        x: from.x + (Math.cos(newAngle) * distance),
+        //y axis is inverted in d3
+        y: from.y - (Math.sin(newAngle) * distance),
+        angle: newAngle,
+        S1:newAngleS1,
+        randAngle : randAngle,
+        distance: distance
+      };
 
-    var newAngle = Util.randomBetween(angleBounds.start, angleBounds.end);
-    
-    // if (newAngle > 180 && previousAngle < 180) {
-    //   newAngle = newAngle - previousAngle;
-    // } else {
-    newAngle = (newAngle + previousAngle) % 360;
-    //}
-    // console.log("resulting angle", newAngle);
-
-    var r = Util.randomBetween(Spec.minLength, Spec.maxLength);
-    var newPoint = Util.cartesianToPolar(from, r, newAngle);
-
-    var p;
-    // if (previousAngle) {
-    //   // adjust angle, rotate 90d back
-    //   // previousAngle = ((360 - previousAngle) - 90) % 360;
-    //   var prevAngle = previousAngle * (Math.PI/180);
-
-    //   p = {
-    //     x : Math.cos(prevAngle) * newPoint.x + Math.sin(prevAngle * newPoint.y),
-    //     y : -Math.sin(prevAngle) * newPoint.x + Math.cos(prevAngle) * newPoint.y
-    //   };
-    // } else {
-      p = newPoint;
-    // }
-
-    p.angle = newAngle;
-    console.log(rule, p);
-    return p;
+    console.log(rule, distance, newPoint);
+    return newPoint;
   };
   
   return Util;

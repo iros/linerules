@@ -22,15 +22,16 @@ define(function(require) {
 
   // find arbitrary center
   var center = {
-    x : Util.randomBetween(0, Spec._drawWidth, true),
-    y : Util.randomBetween(0, Spec._drawHeight, true)
+    x : Spec._drawWidth * Math.random(),
+    y : Spec._drawHeight * Math.random(),
+    angle : Math.PI/2 //start by driving up
   };
 
   // draw circle there
   base.append("circle")
     .classed("start", true)
     .attr({
-      r : 5, cx: center.x, cy: center.y
+      r : 5, cx: center.x, cy: center.y, fill:'green'
     });
 
   var rules = Rules.generateRules(Spec.iterations, Spec.chance);
@@ -40,12 +41,19 @@ define(function(require) {
   //var coords = Util.cartesianToPolar(center, r, angle);
 
   var points = [center], angle;
-  for(var i = 1; i <= Spec.iterations; i++) {
-    var point = Util.nextPoint(points[i-1], rules[i-1], angle);
-    angle = point.angle;
+  for(var i = 0; i <= Spec.iterations-1; i++) {
+    var point = Util.nextPoint(points[points.length-1], rules[i]);
     points.push(point);
   }
 
   Util.drawPath(base, points);
+
+  var lastPoint = points[points.length-1];
+
+  base.append("circle")
+    .classed("stop", true)
+    .attr({
+      r : 5, cx: lastPoint.x, cy: lastPoint.y, fill:'red'
+    });
 
 });
