@@ -1,0 +1,38 @@
+{
+  "name": "linerules",
+  "version": "0.1.0",
+  "description": "rule based line drawing system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/iros/linerules"
+  },
+  "keywords": [
+    "lines",
+    "art",
+    "svg",
+    "rules",
+    "constraint",
+    "systems"
+  ],
+  "author": "Irene Ros",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iros/linerules/issues"
+  },
+  "homepage": "https://github.com/iros/linerules",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-uglify": "~0.3.0",
+    "d3": "~3.4.1",
+    "connect": "~2.12.0",
+    "grunt-contrib-connect": "~0.6.0",
+    "requirejs": "~2.1.10"
+  }
+}
