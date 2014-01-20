@@ -14,7 +14,7 @@ define(function(require) {
     strokeWidth: 1,
     opacity:1,
     color: "black",
-    iterations: 2,
+    iterations: 20,
 
     // higher, more left, lower, more rights.
     chance: 0.5
