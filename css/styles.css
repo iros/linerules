@@ -1,7 +1,11 @@
 body {
-  color: red;
+  color: black;
 }
 
 path {
   fill: none;
+}
+
+#rules {
+  margin-right: 260px;
 }

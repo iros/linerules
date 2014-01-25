@@ -20,40 +20,42 @@ define(function(require) {
       .attr("height", Spec._drawHeight)
       .attr("transform", "translate(" + Spec.maxLength+","+Spec.maxLength+")");
 
-  // find arbitrary center
-  var center = {
-    x : Spec._drawWidth * Math.random(),
-    y : Spec._drawHeight * Math.random(),
-    angle : Math.PI/2 //start by driving up
+  var rules = Rules.generateRules(Spec.iterations, Spec.chance);
+  d3.select("#rules").html(rules.join(", "));
+
+  var draw = function() {
+    base.selectAll("path").remove();
+    base.selectAll("circle").remove();
+
+    // find arbitrary center
+    var center = {
+      x : Spec._drawWidth * Math.random(),
+      y : Spec._drawHeight * Math.random(),
+      angle : Math.PI/2 //start by driving up
+    };
+
+    // draw circle there
+    base.append("circle")
+      .classed("start", true)
+      .attr({
+        r : 5,
+        cx: center.x,
+        cy: center.y,
+        fill:"steelblue"
+      });
+
+    for(var j = 0; j < Spec.iterations; j++) {
+      var points = [center];
+      for(var i = 0; i <= Spec.segments-1; i++) {
+        var point = Util.nextPoint(points[points.length-1], rules[i], i+1);
+        points.push(point);
+      }
+      Util.drawPath(base, points);
+    }
   };
 
-  // draw circle there
-  base.append("circle")
-    .classed("start", true)
-    .attr({
-      r : 5, cx: center.x, cy: center.y, fill:'green'
-    });
+  draw();
 
-  var rules = Rules.generateRules(Spec.iterations, Spec.chance);
-  
-  var r = Util.randomBetween(Spec.minLength, Spec.maxLength);
-  // var angle = Util.randomBetween(0, 360, true);
-  //var coords = Util.cartesianToPolar(center, r, angle);
-
-  var points = [center], angle;
-  for(var i = 0; i <= Spec.iterations-1; i++) {
-    var point = Util.nextPoint(points[points.length-1], rules[i]);
-    points.push(point);
-  }
-
-  Util.drawPath(base, points);
-
-  var lastPoint = points[points.length-1];
-
-  base.append("circle")
-    .classed("stop", true)
-    .attr({
-      r : 5, cx: lastPoint.x, cy: lastPoint.y, fill:'red'
-    });
+  Spec.dispatch.on("repaint", draw);
 
 });

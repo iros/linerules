@@ -31,11 +31,11 @@ define(function(require){
         .attr("d", line(points));
   };
 
-  Util.nextPoint = function(from, rule) {
+  Util.nextPoint = function(from, rule, i) {
 
     from.angle = (from.angle || 0); 
 
-    var tau = Math.PI * 2,
+    var tau = Math.PI * 2 / i,
       randAngle = (Math.random() * Math.PI),
       modifier =  ((rule === 'L') ? 1 : -1),
       newAngleS1 = from.angle + (randAngle*modifier) ,
@@ -51,8 +51,6 @@ define(function(require){
         randAngle : randAngle,
         distance: distance
       };
-
-    console.log(rule, distance, newPoint);
     return newPoint;
   };
   
