@@ -68,7 +68,8 @@ define(function(require) {
   c();
 
   d3.select("button#stop").on("click", function() {
-    keepGoing = false;
+    keepGoing = !keepGoing;
+    if (keepGoing) c();
   });
   // draw();
 

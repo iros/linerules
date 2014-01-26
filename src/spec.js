@@ -20,7 +20,7 @@ define(function(require) {
     strokeWidth: 1.5,
     opacity: 0.3,
     color: "black",
-    segments: 10,
+    segments: 9,
     iterations: 100,
 
     angleFactor: 1,

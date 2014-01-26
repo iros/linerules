@@ -4,8 +4,17 @@ define(function(require){
   
   var d3 = require("d3");
   var Spec = require("src/spec");
+  var colorbrewer = require("colorbrewer");
 
   var Util = {};
+
+  // var colors = d3.scale.linear()
+  //   .domain([0, Spec.segments])
+  //   .range(["green", "red"]);
+
+  var colors = d3.scale.ordinal()
+    .domain([0, Spec.segments])
+    .range(colorbrewer.PRGn[Spec.segments]);
   
   Util.randomBetween = function(lower,upper, round) {
     var f = round ?
@@ -29,7 +38,7 @@ define(function(require){
           .attr("cx", function(d) { return d.x; })
           .attr("cy", function(d) { return d.y; })
           .attr("r", 3)
-          .style("fill", "steelblue");
+          .style("fill", function(d, i){ return colors(i); });
         
 
     return base
