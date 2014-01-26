@@ -21,6 +21,17 @@ define(function(require){
       .y(function(d) { return d.y; })
       .interpolate("linear");
 
+    base.append("g").classed("markers", true)
+      .selectAll("circle")
+        .data(points)
+        .enter()
+          .append("circle")
+          .attr("cx", function(d) { return d.x; })
+          .attr("cy", function(d) { return d.y; })
+          .attr("r", 3)
+          .style("fill", "steelblue");
+        
+
     return base
         .append("path")
         .style({
@@ -35,8 +46,8 @@ define(function(require){
 
     from.angle = (from.angle || 0); 
 
-    var tau = Math.PI * 2 / i,
-      randAngle = (Math.random() * Math.PI),
+    var tau = Math.PI * 2,
+      randAngle = (Math.random() * (Math.PI * Spec.angleFactor)),
       modifier =  ((rule === 'L') ? 1 : -1),
       newAngleS1 = from.angle + (randAngle*modifier) ,
       newAngleS2 = newAngleS1 + tau,

@@ -23,16 +23,19 @@ define(function(require) {
   var rules = Rules.generateRules(Spec.iterations, Spec.chance);
   d3.select("#rules").html(rules.join(", "));
 
+
+  // find arbitrary center
+  var center = {
+    x : Spec._drawWidth  / 2,
+    y : Spec._drawHeight / 2,
+    angle : Math.PI/2 //start by driving up
+  };
+
   var draw = function() {
+    // base.selectAll("path").style("opacity", 0.05);
     base.selectAll("path").remove();
     base.selectAll("circle").remove();
-
-    // find arbitrary center
-    var center = {
-      x : Spec._drawWidth * Math.random(),
-      y : Spec._drawHeight * Math.random(),
-      angle : Math.PI/2 //start by driving up
-    };
+    base.selectAll("g").remove();
 
     // draw circle there
     base.append("circle")
@@ -54,8 +57,21 @@ define(function(require) {
     }
   };
 
-  draw();
+  var keepGoing = true;
+  var c = function() {
+    setTimeout(function() {
+      draw();
 
-  Spec.dispatch.on("repaint", draw);
+      if (keepGoing) c();
+    }, 100);
+  }
+  c();
+
+  d3.select("button#stop").on("click", function() {
+    keepGoing = false;
+  });
+  // draw();
+
+  // Spec.dispatch.on("repaint", draw);
 
 });

@@ -23,6 +23,8 @@ define(function(require) {
     segments: 10,
     iterations: 100,
 
+    angleFactor: 1,
+
     // higher, more left, lower, more rights.
     chance: 0.5
   };
@@ -44,7 +46,8 @@ define(function(require) {
   h.add(opts, "strokeWidth", 1, 10).step(0.5).onChange(repaint);
   h.add(opts, "opacity", 0, 1).step(0.1).onChange(repaint);
 
-  h.add(opts, "segments", 1, 50).step(5).onChange(repaint);
+  h.add(opts, "angleFactor", 0, 1.0).step(0.1).onChange(repaint);
+  h.add(opts, "segments", 1, 50).step(1).onChange(repaint);
   h.add(opts, "iterations", 10, 1000).step(25).onChange(repaint);
 
   h.open();
