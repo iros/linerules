@@ -37,9 +37,6 @@ define(function(require) {
     opts.dispatch.repaint();
   };
 
-  h.add(opts, "height", 10, 1000).step(100).onChange(repaint);
-  h.add(opts, "width", 10, 1000).step(100).onChange(repaint);
-
   h.add(opts, "maxLength", 1, 100).step(5).onChange(repaint);
   h.add(opts, "minLength", 1, 100).step(5).onChange(repaint);
 
