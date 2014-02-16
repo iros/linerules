@@ -19,7 +19,8 @@ module.exports = function(grunt) {
           globals: {
             d3: true,
             require: true,
-            define: true
+            define: true,
+            setTimeout: true
           }
         },
         files: {

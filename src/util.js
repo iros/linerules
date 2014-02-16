@@ -1,7 +1,7 @@
-"use strict";
-
 define(function(require){
-  
+
+  "use strict";
+
   var d3 = require("d3");
   var Spec = require("src/spec");
   var colorbrewer = require("colorbrewer");
@@ -15,7 +15,7 @@ define(function(require){
   var colors = d3.scale.ordinal()
     .domain([0, Spec.segments])
     .range(colorbrewer.PRGn[Spec.segments]);
-  
+
   Util.randomBetween = function(lower,upper, round) {
     var f = round ?
       function(n) { return Math.floor(n); } :
@@ -30,17 +30,6 @@ define(function(require){
       .y(function(d) { return d.y; })
       .interpolate("linear");
 
-    base.append("g").classed("markers", true)
-      .selectAll("circle")
-        .data(points)
-        .enter()
-          .append("circle")
-          .attr("cx", function(d) { return d.x; })
-          .attr("cy", function(d) { return d.y; })
-          .attr("r", 3)
-          .style("fill", function(d, i){ return colors(i); });
-        
-
     return base
         .append("path")
         .style({
@@ -53,16 +42,16 @@ define(function(require){
 
   Util.nextPoint = function(from, rule, i) {
 
-    from.angle = (from.angle || 0); 
+    from.angle = (from.angle || 0);
 
     var tau = Math.PI * 2,
       randAngle = (Math.random() * (Math.PI * Spec.angleFactor)),
-      modifier =  ((rule === 'L') ? 1 : -1),
+      modifier =  rule === "L" ? 1 : -1,
       newAngleS1 = from.angle + (randAngle*modifier) ,
       newAngleS2 = newAngleS1 + tau,
       newAngle = newAngleS2 % tau,
       distance = ((Spec.maxLength - Spec.minLength) * Math.random()) + Spec.minLength,
-      newPoint = { 
+      newPoint = {
         x: from.x + (Math.cos(newAngle) * distance),
         //y axis is inverted in d3
         y: from.y - (Math.sin(newAngle) * distance),
@@ -73,6 +62,6 @@ define(function(require){
       };
     return newPoint;
   };
-  
+
   return Util;
 });

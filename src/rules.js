@@ -1,5 +1,7 @@
 define(function(require) {
 
+  "use strict";
+
   return {
     generateRules: function(n, prob) {
       var rules = [], r;

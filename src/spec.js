@@ -1,6 +1,6 @@
-"use strict";
-
 define(function(require) {
+
+  "use strict";
 
   var DatGui = require("dat.GUI");
   var d3 = require("d3");
@@ -39,7 +39,7 @@ define(function(require) {
 
   h.add(opts, "height", 10, 1000).step(100).onChange(repaint);
   h.add(opts, "width", 10, 1000).step(100).onChange(repaint);
-  
+
   h.add(opts, "maxLength", 1, 100).step(5).onChange(repaint);
   h.add(opts, "minLength", 1, 100).step(5).onChange(repaint);
 

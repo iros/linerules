@@ -1,6 +1,6 @@
-"use strict";
-
 define(function(require) {
+
+  "use strict";
 
   var d3 = require("d3");
   var Spec = require("src/spec");
@@ -62,14 +62,14 @@ define(function(require) {
     setTimeout(function() {
       draw();
 
-      if (keepGoing) c();
+      if (keepGoing) { c(); }
     }, 100);
-  }
+  };
   c();
 
   d3.select("button#stop").on("click", function() {
     keepGoing = !keepGoing;
-    if (keepGoing) c();
+    if (keepGoing) {c();}
   });
   // draw();
 
